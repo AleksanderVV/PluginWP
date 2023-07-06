@@ -70,20 +70,20 @@ if(!class_exists('alePropertyCustomPostType')) {
       
       echo '
       <p>
-        <label for="aleproperty_price">Price</label>
-        <input type="number" id="aleproperty_price" name="aleproperty_price" value="'.esc_html($price).'">
+        <label for="aleproperty_price">'.esc_html__('Price','aleproperty').'</label>
+        <input type="number" id="aleproperty_price" name="aleproperty_price" value="'.esc_attr($price).'">
       </p>
       <p>
-        <label for="aleproperty_period">Period</label>
-        <input type="text" id="aleproperty_period" name="aleproperty_period" value="'.esc_html($period).'">
+        <label for="aleproperty_period">'.esc_html__('Period','aleproperty').'</label>
+        <input type="text" id="aleproperty_period" name="aleproperty_period" value="'.esc_attr($period).'">
       </p>
       <p>
-        <label for="aleproperty_type">Period</label>
+        <label for="aleproperty_type">'.esc_html__('Type','aleproperty').'</label>
         <select id="aleproperty_type" name="aleproperty_type">
-          <option value="empty">Select Type</option>
-          <option value="sale" '.selected('sale',$type,false).'>For Sale</option>
-          <option value="rent" '.selected('rent',$type,false).'>For Rent</option>
-          <option value="sold" '.selected('sold',$type,false).'>Sold</option>
+          <option value="empty">'.esc_html__('Select Type','aleproperty').'</option>
+          <option value="sale" '.selected('sale',$type,false).'>'.esc_html__('For Sale','aleproperty').'</option>
+          <option value="rent" '.selected('rent',$type,false).'>'.esc_html__('For Rent','aleproperty').'</option>
+          <option value="sold" '.selected('sold',$type,false).'>'.esc_html__('Sold','aleproperty').'</option>
         </select>
       </p>
       ';
@@ -96,9 +96,9 @@ if(!class_exists('alePropertyCustomPostType')) {
       if($agents) {
         echo '
           <p>
-            <label for="aleproperty_agent">Agents</label>
+            <label for="aleproperty_agent">'.esc_html__('Agents','aleproperty').'</label>
             <select type="text" id="aleproperty_agent" name="aleproperty_agent">
-              <option value="empty">Select Agent</option>';
+              <option value="empty">'.esc_html__('Select Agent','aleproperty').'</option>';
             
             foreach($agents as $agent) { ?>
               <option value="<?php echo esc_html($agent->ID); ?>" <?php if($agent->ID == $agent_meta){echo 'selected'; } ?>><?php echo esc_html($agent->post_title); ?></option>
@@ -117,7 +117,7 @@ if(!class_exists('alePropertyCustomPostType')) {
           'public' => true,
           'has_archive' => true,
           'rewrite' => array('slug' => 'Properties'),
-          'label' => 'Property',
+          'label' => esc_html__('Property','aleproperty'),
           'supports' => array('title','editor','thumbnail')
       ));
       register_post_type('agent', 
@@ -125,7 +125,7 @@ if(!class_exists('alePropertyCustomPostType')) {
         'public' => true,
         'has_archive' => true,
         'rewrite' => array('slug' => 'Agents'),
-        'label' => 'Agents',
+        'label' => esc_html__('Agents','aleproperty'),
         'supports' => array('title','editor','thumbnail'),
         'show_in_rest' => true // connect Guttenberg
       ));
