@@ -16,9 +16,14 @@ if(!defined('ABSPATH')){
 }
 
 define('ALEPROPERTY_PATH',plugin_dir_path(__FILE__));
+
 if(!class_exists('alePropertyCustomPostType')){
-  require ALEPROPERTY_PATH . 'inc/cpt.php';
+  require ALEPROPERTY_PATH . 'inc/class-aleproperty-cpt.php';
 }
+if(!class_exists('Gamajo_Template_Loader')){
+  require ALEPROPERTY_PATH . 'inc/class-gamajo-template-loader.php';
+}
+require ALEPROPERTY_PATH . 'inc/class-aleproperty-template-loader.php';
 
 class aleProperty{
 
