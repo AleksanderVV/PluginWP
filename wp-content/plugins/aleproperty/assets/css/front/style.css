@@ -1,0 +1,19 @@
+.wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.archive_property {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.archive_property article.property {
+  background-color: #fff;
+  padding: 40px;
+  width: 30%;
+}
+.single_property article.property {
+  background-color: #fff;
+  padding: 40px;
+}
