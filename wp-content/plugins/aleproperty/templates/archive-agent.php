@@ -11,7 +11,7 @@ get_header();
 
       <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
       <?php if(get_the_post_thumbnail(get_the_ID(),'large')){
-        echo get_the_post_thumbnail(get_the_ID(),'medium');
+        echo get_the_post_thumbnail(get_the_ID(),[400,300]);
       } ?>
         <h2><?php the_title(); ?></h2>
         <div class="description"><?php the_excerpt(); ?></div>

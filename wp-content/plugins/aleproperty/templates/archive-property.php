@@ -2,55 +2,89 @@
 get_header();
 ?>
 
+<?php $aleProperty_Template->get_template_part('partials/filter'); ?>
+
 <div class="wrapper archive_property">
 
   <?php
-  if (have_posts()) {
-    while(have_posts()){
-      the_post(); ?>
 
-      <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-      <?php if(get_the_post_thumbnail(get_the_ID(),'large')){
-        echo get_the_post_thumbnail(get_the_ID(),'large');
-      } ?>
-        <h2><?php the_title(); ?></h2>
-        <div class="description"><?php the_excerpt(); ?></div>
-        <div class="property_info">
-          <p class="location"><?php esc_html_e('Location:','aleproperty');
-          
-              $locations = get_the_terms(get_the_ID(),'location');
-              foreach($locations as $location) {
-                echo ' '.$location->name;
-              }
-          ?></p>
-          <p class="type"><?php esc_html_e('Type:','aleproperty');
-          
-          $types = get_the_terms(get_the_ID(),'property-type');
-          foreach($types as $type) {
-            echo ' '.$type->name;
-          }
-          ?></p>
-          <p class="price"><?php esc_html_e('Price:','aleproperty'); echo ' '.get_post_meta(get_the_ID(),'aleproperty_price',true); ?></p>
-          <p class="offer"><?php esc_html_e('Offer:','aleproperty'); echo ' '.get_post_meta(get_the_ID(),'aleproperty_type',true); ?></p>
-          <p class="agent"><?php esc_html_e('Agent:','aleproperty'); 
-          
-              $agent_id = get_post_meta(get_the_ID(),'aleproperty_agent',true);
-              $agent = get_post($agent_id);
-              echo ' '.esc_html__($agent->post_title);
-          ?></p>
-        </div>
-        <a href="<?php the_permalink();?>"> <?php esc_html_e('Open this Property'); ?> </a>
-      </article>
+  if(!empty($_POST['submit'])){
 
-  <?php
+    $args = array(
+      'post_type' => 'property',
+      'post_per_page' => -1,
+      'meta_query' => array('relation' => 'AND'),
+      'tax_query' => array('relation' => 'AND')
+    );
+
+    if(isset($_POST['aleproperty_type']) AND $_POST['aleproperty_type'] != '') {
+      array_push($args['meta_query'], array(
+        'key' => 'aleproperty_type',
+        'value' => esc_attr($_POST['aleproperty_type'])
+      ));
     }
-    //Pagination
-    posts_nav_link();
-  }else{
-    echo '<p>'. esc_html__("No Properties",'aleproperty').'<p>';
+    if(isset($_POST['aleproperty_price']) AND $_POST['aleproperty_type'] != '') {
+      array_push($args['meta_query'], array(
+        'key' => 'aleproperty_price',
+        'value' => esc_attr($_POST['aleproperty_price']),
+        'type' => 'numeric',
+        'compare' => '<='
+      ));
+    }
+    if(isset($_POST['aleproperty_agent']) AND $_POST['aleproperty_type'] != '') {
+      array_push($args['meta_query'], array(
+        'key' => 'aleproperty_agent',
+        'value' => esc_attr($_POST['aleproperty_agent']),
+        'type' => 'numeric',
+        'compare' => '<='
+      ));
+    }
+    if(isset($_POST['aleproperty_location']) AND $_POST['aleproperty_location'] != '') {
+      array_push($args['tax_query'], array(
+        'taxonomy' => 'location',
+        'terms' => $_POST['aleproperty_location']
+      ));
+    }
+    if(isset($_POST['aleproperty_property-type']) AND $_POST['aleproperty_property-type'] != '') {
+      array_push($args['tax_query'], array(
+        'taxonomy' => 'property-type',
+        'terms' => $_POST['aleproperty_property-type']
+      ));
+    }
+
+    $properties = new WP_Query($args);
+
+    if ($properties->have_posts()) {
+      while($properties->have_posts()){
+        $properties->the_post();
+  
+        $aleProperty_Template->get_template_part('partials/content');
+  
+      }
+    }else{
+      echo '<p>'. esc_html__("No Properties",'aleproperty').'<p>';
+    }
+
+  } else {
+
+    if (have_posts()) {
+      while(have_posts()){
+        the_post();
+  
+        $aleProperty_Template->get_template_part('partials/content');
+  
+      }
+      //Pagination
+      posts_nav_link();
+    }else{
+      echo '<p>'. esc_html__("No Properties",'aleproperty').'<p>';
+    }
+
   }
+
   ?>
 </div>
 
 <?php
+
 get_footer();
