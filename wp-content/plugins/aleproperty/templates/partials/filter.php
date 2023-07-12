@@ -5,12 +5,12 @@
 
     <select name="aleproperty_location">
       <option value=""><?php esc_html_e('Select Location','aleproperty'); ?></option>
-      <?php $aleProperty->get_terms_hierarchical('location', $_POST['aleproperty_location']);?>
+      <?php echo $aleProperty->get_terms_hierarchical('location', $_POST['aleproperty_location']);?>
     </select>
 
     <select name="aleproperty_property-type">
       <option value=""><?php esc_html_e('Select Type','aleproperty'); ?></option>
-      <?php $aleProperty->get_terms_hierarchical('property-type', $_POST['aleproperty_property-type']);?>
+      <?php echo $aleProperty->get_terms_hierarchical('property-type', $_POST['aleproperty_property-type']);?>
     </select>
 
     <input type="text" placeholder="<?php esc_html_e('Max Price','aleproperty'); ?>" name="aleproperty_price" 
