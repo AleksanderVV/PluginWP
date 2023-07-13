@@ -3,7 +3,7 @@
 class aleProperty_Filter_Widget extends WP_Widget {
 
   function __construct(){
-    parent::__construct('aleproperty_filter_widget', esc_html__('Filter','aleproperty'), array('description'=>'Filter Form'));
+    parent::__construct('aleproperty_filter_widget', esc_html__('Filter','aleproperty'), array('description'=> esc_html__('Filter Form','aleproperty')));
   }
 
   public function widget($args,$instance){
@@ -46,62 +46,68 @@ class aleProperty_Filter_Widget extends WP_Widget {
 
   public function form($instance) { 
     
-    if (isset($instance['title'])){
-      $title = $instance['title'];
-    } else {
-      $title = '';
-    }
-    if (isset($instance['location'])){
-      $location = $instance['location'];
-    } else {
-      $location = '';
-    }
-    if (isset($instance['type'])){
-      $type = $instance['type'];
-    } else {
-      $type = '';
-    }    
-    if (isset($instance['price'])){
-      $price = $instance['price'];
-    } else {
-      $price = '';
-    }
-    if (isset($instance['offer'])){
-      $offer = $instance['offer'];
-    } else {
-      $offer = '';
-    }
-    if (isset($instance['agent'])){
-      $agent = $instance['agent'];
-    } else {
-      $agent = '';
-    }
+    $title = isset($instance['title']) ? $instance['title'] : '';
+    // if (isset($instance['title'])){
+    //   $title = $instance['title'];
+    // } else {
+    //   $title = '';
+    // }
+    $title = isset($instance['location']) ? $instance['location'] : '';
+    // if (isset($instance['location'])){
+    //   $location = $instance['location'];
+    // } else {
+    //   $location = '';
+    // }
+    $title = isset($instance['type']) ? $instance['type'] : '';
+    // if (isset($instance['type'])){
+    //   $type = $instance['type'];
+    // } else {
+    //   $type = '';
+    // }   
+    $title = isset($instance['price']) ? $instance['price'] : ''; 
+    // if (isset($instance['price'])){
+    //   $price = $instance['price'];
+    // } else {
+    //   $price = '';
+    // }
+    $title = isset($instance['offer']) ? $instance['offer'] : '';
+    // if (isset($instance['offer'])){
+    //   $offer = $instance['offer'];
+    // } else {
+    //   $offer = '';
+    // }
+    $title = isset($instance['agent']) ? $instance['agent'] : '';
+    // if (isset($instance['agent'])){
+    //   $agent = $instance['agent'];
+    // } else {
+    //   $agent = '';
+    // }
     
     ?>
 
   <p>
-    <label for="<?php $this->get_field_id('title'); ?>"><?php esc_html__('Title'); ?></label>
-    <input class="widefat" type="text" id="<?php $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php echo esc_attr($title); ?>">
+    <label for="<?php echo $this->get_field_id('title'); ?>"><?php esc_html__('Title'); ?></label>
+    <input class="widefat" type="text" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php echo esc_attr($title); ?>">
   </p>
   <p>
-    <label for="<?php $this->get_field_id('location'); ?>"><?php echo esc_html__('Show Location Fields'); ?></label>
-    <input type="checkbox" name="<?php echo $this->get_field_name('location'); ?>" id="<?php $this->get_field_id('location'); ?>" <?php checked($location, 'on'); ?>>
+    <label for="<?php echo $this->get_field_id('location'); ?>"><?php echo esc_html__('Show Location Fields'); ?></label>
+    <input type="checkbox" name="<?php echo $this->get_field_name('location'); ?>" id="<?php echo $this->get_field_id('location'); ?>" <?php checked($location, 'on'); ?>>
   </p>
   <p>
-    <label for="<?php $this->get_field_id('type'); ?>"><?php echo esc_html__('Show Type Fields'); ?></label>
-    <input type="checkbox" name="<?php echo $this->get_field_name('type'); ?>" id="<?php $this->get_field_id('type'); ?>" <?php checked($type, 'on'); ?>>
+    <label for="<?php echo $this->get_field_id('type'); ?>"><?php echo esc_html__('Show Type Fields'); ?></label>
+    <input type="checkbox" name="<?php echo $this->get_field_name('type'); ?>" id="<?php echo $this->get_field_id('type'); ?>" <?php checked($type, 'on'); ?>>
   </p>
   <p>
-    <label for="<?php $this->get_field_id('price'); ?>"><?php echo esc_html__('Show Price Fields'); ?></label>
-    <input type="checkbox" name="<?php echo $this->get_field_name('price'); ?>" id="<?php $this->get_field_id('price'); ?>" <?php checked($price, 'on'); ?>>
+    <label for="<?php echo $this->get_field_id('price'); ?>"><?php echo esc_html__('Show Price Fields'); ?></label>
+    <input type="checkbox" name="<?php echo $this->get_field_name('price'); ?>" id="<?php echo $this->get_field_id('price'); ?>" <?php checked($price, 'on'); ?>>
   </p>
   <p>
-    <label for="<?php $this->get_field_id('offer'); ?>"><?php echo esc_html__('Show Offer Fields'); ?></label>
-    <input type="checkbox" name="<?php echo $this->get_field_name('offer'); ?>" id="<?php $this->get_field_id('offer'); ?>" <?php checked($offer, 'on'); ?>>
+    <label for="<?php echo $this->get_field_id('offer'); ?>"><?php echo esc_html__('Show Offer Fields'); ?></label>
+    <input type="checkbox" name="<?php echo $this->get_field_name('offer'); ?>" id="<?php echo $this->get_field_id('offer'); ?>" <?php checked($offer, 'on'); ?>>
   </p>
   <p>
-    <label for="<?php $this->get_field_id('agent'); ?>"><?php echo esc_html__('Show Agent Fields'); ?></label>
-    <input type="checkbox" name="<?php echo $this->get_field_name('agent'); ?>" id="<?php $this->get_field_id('agent'); ?>" <?php checked($agent, 'on'); ?>>
+    <label for="<?php echo $this->get_field_id('agent'); ?>"><?php echo esc_html__('Show Agent Fields'); ?></label>
+    <input type="checkbox" name="<?php echo $this->get_field_name('agent'); ?>" id="<?php echo $this->get_field_id('agent'); ?>" <?php checked($agent, 'on'); ?>>
   </p>
   <?php
   }
