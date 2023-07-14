@@ -5,7 +5,7 @@ final class Elementor_aleProperty_Extention {
 
 	const VERSION = '1.0.0';
 
-	const MINIMUM_ELEMENTOR_VERSION = '3.7.0';
+	const MINIMUM_ELEMENTOR_VERSION = '4.0';
 
 	const MINIMUM_PHP_VERSION = '7.3';
 
@@ -32,7 +32,7 @@ final class Elementor_aleProperty_Extention {
 
 		if ( ! did_action( 'elementor/loaded' ) ) {
 			add_action( 'admin_notices', [ $this, 'admin_notice_missing_main_plugin' ] );
-			return false;
+			return true;
 		}
 
 		if ( ! version_compare( ELEMENTOR_VERSION, self::MINIMUM_ELEMENTOR_VERSION, '>=' ) ) {
@@ -55,9 +55,9 @@ final class Elementor_aleProperty_Extention {
 
 		$message = sprintf(
 			/* translators: 1: Plugin name 2: Elementor */
-			esc_html__( '"%1$s" requires "%2$s" to be installed and activated.', 'elementor-test-addon' ),
-			'<strong>' . esc_html__( 'Elementor Test Addon', 'elementor-test-addon' ) . '</strong>',
-			'<strong>' . esc_html__( 'Elementor', 'elementor-test-addon' ) . '</strong>'
+			esc_html__( '"%1$s" requires "%2$s" to be installed and activated.', 'aleproperty' ),
+			'<strong>' . esc_html__( 'Elementor Properties Addon', 'aleproperty' ) . '</strong>',
+			'<strong>' . esc_html__( 'Elementor', 'aleproperty' ) . '</strong>'
 		);
 
 		printf( '<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', $message );
@@ -99,6 +99,7 @@ final class Elementor_aleProperty_Extention {
 	public function init() {
 
 		add_action( 'elementor/widgets/register', [ $this, 'register_widgets' ] );
+    add_action('elementor/elements/categories_registered',[$this,'add_elementor_widget_categories']);
 
 	}
 
@@ -110,6 +111,19 @@ final class Elementor_aleProperty_Extention {
 
 	}
 
+  function add_elementor_widget_categories($elements_manager) {
+    $elements_manager->add_category(
+      'aleproperty', 
+      array(
+        'title' => esc_html('aleProperty'),
+        'icon' => 'fa fa-plug'
+      )
+      );
+  }
+
 }
 
 \Elementor_aleProperty_Extention::instance();
+
+
+

@@ -8,12 +8,12 @@
   flex-wrap: wrap;
   justify-content: space-between;
 }
-.archive_property article.property {
+.archive_property article.type-property {
   background-color: #fff;
   padding: 40px;
   width: 30%;
 }
-.single_property article.property {
+.single_property article.type-property {
   background-color: #fff;
   padding: 40px;
 }
