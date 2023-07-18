@@ -1,7 +1,15 @@
 <div class="wrapper filter_form">
   <?php $aleProperty = new aleProperty(); ?>
 
-  <form action="<?php get_post_type_archive_link('property'); ?>" method="POST">
+  <?php 
+    $options = get_option('aleproperty_settings_options');
+
+    if (isset($options['filter_title'])) {echo $options['filter_title'];} ;
+    if (isset($options['archive_title'])) {echo $options['archive_title'];} ;
+  
+  ?>
+
+  <form action="<?php echo get_post_type_archive_link('property'); ?>" method="POST">
 
     <select name="aleproperty_location">
       <option value=""><?php esc_html_e('Select Location','aleproperty'); ?></option>

@@ -37,6 +37,39 @@ class aleProperty{
     add_action('widgets_init',[$this,'register_widget']);
     add_action('admin_menu',[$this,'add_menu_item']);
     add_filter('plugin_action_links_'. plugin_basename(__FILE__),[$this,'add_plugin_setting_link']);
+    add_action('admin_init',[$this,'settings_init']);
+  }
+
+  public function settings_init(){
+
+    register_setting('aleproperty_settings','aleproperty_settings_options');
+
+    add_settings_section('aleproperty_settings_section', esc_html__('Settings','aleproperty'), [$this,'aleproperty_settings_section_html'],'aleproperty_settings');
+
+    add_settings_field('filter_title', esc_html__('Title for Filter','aleproperty'), [$this,'filter_title_html'],'aleproperty_settings','aleproperty_settings_section');
+    add_settings_field('archive_title', esc_html__('Title for Archive Page','aleproperty'), [$this,'archive_title_html'],'aleproperty_settings','aleproperty_settings_section');
+}
+
+public function filter_title_html(){
+
+  $options = get_option('aleproperty_settings_options');
+
+  ?>
+  <input type="text" name="aleproperty_settings_options[filter_title]" value="<?php echo isset($options['filter_title']) ? $options['filter_title'] : "";  ?>" />
+  <?php
+}
+
+public function archive_title_html(){
+
+  $options = get_option('aleproperty_settings_options');
+
+  ?>
+  <input type="text" name="aleproperty_settings_options[archive_title]" value="<?php echo isset($options['archive_title']) ? $options['archive_title'] : "";  ?>" />
+  <?php
+}
+
+  public function aleproperty_settings_section_html(){
+    esc_html_e('Settings for plugin','aleproperty');
   }
 
   public function add_plugin_setting_link($link){
