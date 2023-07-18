@@ -35,6 +35,31 @@ class aleProperty{
     add_action('wp_enqueue_scripts',[$this,'enqueue_front']);
     add_action('plugins_loaded',[$this,'load_text_domain']);
     add_action('widgets_init',[$this,'register_widget']);
+    add_action('admin_menu',[$this,'add_menu_item']);
+    add_filter('plugin_action_links_'. plugin_basename(__FILE__),[$this,'add_plugin_setting_link']);
+  }
+
+  public function add_plugin_setting_link($link){
+    $aleproperty_link = '<a href="admin.php?page=aleproperty_settings">'. esc_html__('Settings Page','aleproperty').'</a>';
+
+    array_push($link,$aleproperty_link);
+    return $link;
+  }
+
+  public function add_menu_item() {
+    add_menu_page(
+      esc_html__('aleProperty Setings Page','aleproperty'),
+      esc_html__('aleProperty','aleproperty'),
+      'manage_options',
+      'aleproperty_settings',
+      [$this,'main_admin_page'],
+      'dashicons-admin-plugins',
+      100
+    );
+  }
+
+  public function main_admin_page(){
+    require_once ALEPROPERTY_PATH . 'admin/welcome.php';
   }
 
   function register_widget() {
