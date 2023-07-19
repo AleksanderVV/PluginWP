@@ -27,6 +27,8 @@ require ALEPROPERTY_PATH . 'inc/class-aleproperty-template-loader.php';
 require ALEPROPERTY_PATH . 'inc/class-aleproperty-shortcodes.php';
 require ALEPROPERTY_PATH . 'inc/class-aleproperty-filter-widget.php';
 require ALEPROPERTY_PATH . 'inc/class-aleproperty-elementor.php';
+require ALEPROPERTY_PATH . 'inc/class-aleproperty-bookingform.php';
+
 
 class aleProperty{
 

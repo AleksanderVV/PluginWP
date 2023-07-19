@@ -13,15 +13,28 @@ get_header();
       <?php if(get_the_post_thumbnail(get_the_ID(),'large')){
         echo get_the_post_thumbnail(get_the_ID(),'large');
       } ?>
-        <h2><?php the_title(); ?></h2>
+
+        <?php 
+        $price = get_post_meta(get_the_ID(),'aleproperty_price',true);
+
+        $locations = get_the_terms(get_the_ID(),'location');
+        $ale_location = '';
+        foreach($locations as $location) {
+          $ale_location .= ' '.$location->name;
+        }
+
+        $ale_title = get_the_title();
+
+        do_shortcode('[aleproperty_booking price="'.$price.'" location="'.$ale_location.'" title="'.$ale_title.'"]'); ?>
+
+
+
+        <h2><?php echo $ale_title; ?></h2>
         <div class="description"><?php the_content(); ?></div>
         <div class="property_info">
           <p class="location"><?php esc_html_e('Location:','aleproperty');
           
-              $locations = get_the_terms(get_the_ID(),'location');
-              foreach($locations as $location) {
-                echo ' '.$location->name;
-              }
+          echo $ale_location;
           ?></p>
           <p class="type"><?php esc_html_e('Type:','aleproperty');
           
@@ -30,7 +43,7 @@ get_header();
             echo ' '.$type->name;
           }
           ?></p>
-          <p class="price"><?php esc_html_e('Price:','aleproperty'); echo ' '.get_post_meta(get_the_ID(),'aleproperty_price',true); ?></p>
+          <p class="price"><?php esc_html_e('Price:','aleproperty'); echo ' '. $price; ?></p>
           <p class="offer"><?php esc_html_e('Offer:','aleproperty'); echo ' '.get_post_meta(get_the_ID(),'aleproperty_type',true); ?></p>
           <p class="agent"><?php esc_html_e('Agent:','aleproperty'); 
           
