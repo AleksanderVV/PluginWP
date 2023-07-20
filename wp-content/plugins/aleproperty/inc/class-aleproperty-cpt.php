@@ -6,6 +6,11 @@ if(!class_exists('alePropertyCustomPostType')) {
       add_action('init',array($this,'custom_post_type'));
       add_action('add_meta_boxes',[$this,'add_meta_box_property']);
       add_action('save_post',[$this,'save_metabox'],10,2);
+
+      add_action('manage_property_posts_columns',[$this,'custom_columns_for_property']);
+      add_action('manage_property_posts_custom_column',[$this,'custom_property_columns_data'], 10, 2);
+      add_filter('manage_edit-property_sortable_columns',[$this,'custom_property_columns_sort']);
+      add_action('pre_get_posts',[$this,'custom_property_order']);
     }
 
     public function add_meta_box_property(){
@@ -180,7 +185,72 @@ if(!class_exists('alePropertyCustomPostType')) {
       );
       register_taxonomy('property-type','property', $args);
     }
+
+    public function custom_columns_for_property($columns){
+
+      $title = $columns['title'];
+      $date = $columns['date'];
+      $location = $columns['taxonomy-location'];
+      $type = $columns['taxonomy-property-type'];
+
+      $columns['title'] = $title;
+      $columns['taxonomy-location'] = $location;
+      $columns['date'] = $date;
+      $columns['taxonomy-property-type'] = $type;
+      $columns['price'] = esc_html__('Price','aleproperty');
+      $columns['offer'] = esc_html__('Offer','aleproperty');
+      $columns['agent'] = esc_html__('Agent','aleproperty');
+    
+      return $columns;
+    }
+
+    public function custom_property_columns_data($column,$post_id){
+
+      $price = get_post_meta($post_id,'aleproperty_price',true);
+      $offer = get_post_meta($post_id,'aleproperty_type',true);
+      $agent_id = get_post_meta($post_id,'aleproperty_agent',true);
+      $agent = get_the_title($agent_id);
+
+      switch($column) {
+        case 'price':
+              echo esc_html($price);
+              break;
+        case 'offer':
+              echo esc_html($offer);
+              break;
+        case 'agent':
+              echo esc_html($agent);
+              break;
+      }
+    }
+
+    public function custom_property_columns_sort($columns){
+
+      $columns['price'] = 'price';
+      $columns['offer'] = 'offer';
+      //$columns['agent'] = 'agent';
+
+      return $columns;
+    }
+
+    public function custom_property_order($query){
+
+      if(!is_admin()){
+        return;
+      }
+      $orderby = $query->get('orderby');
+
+      if('price' == $orderby){
+        $query->set('meta_key','aleproperty_price');
+        $query->set('orderby','meta_value_num');
+      }
+      if('offer' == $orderby){
+        $query->set('meta_key','aleproperty_type');
+        $query->set('orderby','meta_value');
+      }
+    }
   }
+
 }
 
 if(class_exists('alePropertyCustomPostType')){

@@ -9,8 +9,40 @@ class aleProperty_Template_Loader extends Gamajo_Template_Loader {
 
   protected $plugin_template_directory = 'templates';
 
+  public $templates;
+
   public function register() {
     add_filter('template_include',[$this,'aleproperties_templates']);
+    $this->templates = array(
+      'pages/template-custom.php' => 'Custom Template'
+    );
+    add_filter('theme_page_templates',[$this, 'custom_template']);
+    add_filter('template_include',[$this,'load_template']);
+  }
+
+  public function load_template($template){
+
+    global $post;
+
+    $template_name = get_post_meta($post->ID,'_wp_page_template',true);
+
+    
+    if(is_page_template($template_name) && $this->templates[$template_name] ) {
+        $file = ALEPROPERTY_PATH . $template_name;
+        if(file_exists($file)){
+            return $file;
+        }
+    }
+    
+
+    return $template;
+}
+
+  public function custom_template($templates){
+
+    $templates = array_merge($templates, $this->templates);
+
+    return $templates;
   }
 
   public function aleproperties_templates($template) {
